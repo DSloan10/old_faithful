@@ -10,20 +10,20 @@ ui <- fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
+      sliderInput(inputId = "eruptionLength",
+                  label = "Length of Eruption (minutes):",
+                  min = 0,
+                  max = 10,
+                  value = c(3, 5),
+                  step = 0.5),
+      
       sliderInput(inputId = "bins",
                   label = "Number of bins:",
                   min = 1,
                   max = 50,
                   value = 30),
-      
-      sliderInput(inputId = "eruptionLength",
-                  label = "Eruption length (mins):",
-                  min = 0,
-                  max = 10,
-                  value = c(3, 5),
-                  step = 0.5),
     ),
-    
+
     # Show a plot of the generated distribution
     mainPanel(
       plotOutput(outputId = "distPlot")
@@ -44,16 +44,15 @@ server <- function(input, output) {
   )
   
   output$distPlot <- renderPlot({
-    # draw the histogram with the specified number of bins
-    # ----
-    # CHANGE THIS TO data()
-    # ----
-    data() %>% ggplot(aes(x = waiting)) +
-      geom_histogram(bins = input$bins, col = "white", fill = "darkred") +
-      xlab("Waiting time (mins)") +
-      ylab("Number of eruptions") +
-      ggtitle("Histogram of eruption waiting times")
+      # draw the histogram with the specified number of bins
+      data() %>% ggplot(aes(x = waiting)) +
+          # Modify next line
+          geom_histogram(bins = input$bins, col = "white", fill = "darkgreen") + 
+          xlab("Waiting time (mins)") +
+          ylab("Number of eruptions") +
+          ggtitle("Histogram of eruption waiting times")
   })
+  
 }
 
 # Run the application 
